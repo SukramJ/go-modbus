@@ -1,0 +1,72 @@
+name: "Release: Create from Tag"
+# yamllint disable-line rule:truthy
+on:
+  push:
+    tags:
+      - '**'
+
+permissions:
+  contents: write
+
+# One concurrent release per tag — re-pushing the same tag overrides
+# the previous in-flight run instead of racing it.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  create_release:
+    if: github.repository_owner == 'SukramJ'
+    name: Create GitHub Release (${{ github.ref_name }})
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Fetch full history so git-describe can resolve the tag.
+          fetch-depth: 0
+
+      - name: Determine version from tag
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"
+          # Strip a leading 'v' to map tags like v1.2.3 -> 1.2.3
+          VERSION="${TAG_NAME#v}"
+          echo "TAG_NAME=${TAG_NAME}" >> "$GITHUB_ENV"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+          echo "Tag: $TAG_NAME -> $VERSION"
+
+      # go-modbus is a library: a release carries no binaries or archives
+      # (unlike the go-*2mqtt daemons this workflow is modelled on). The
+      # release body is the matching CHANGELOG.md section — extraction
+      # fails loudly when the section is missing, so a tag cannot ship
+      # without release notes.
+      - name: Extract release notes from CHANGELOG.md
+        run: |
+          # Exact-string match, not regex: VERSION is interpolated
+          # unescaped, so a "." in it must stay a literal dot rather than
+          # a regex wildcard (which would let e.g. "1.2.0" match a
+          # "1x2y0" heading), and a version containing a regex
+          # metacharacter (+, *, () must not corrupt the pattern.
+          # index($0, hdr) == 1 checks a literal prefix match instead.
+          awk -v hdr="## [${VERSION}]" '
+            index($0, hdr) == 1 { found = 1; next }
+            found && index($0, "## [") == 1 { exit }
+            found { print }
+          ' CHANGELOG.md > RELEASE_NOTES.md
+          if ! grep -q '[^[:space:]]' RELEASE_NOTES.md; then
+            echo "::error::CHANGELOG.md has no section for version ${VERSION}"
+            exit 1
+          fi
+          echo "== RELEASE_NOTES.md =="
+          cat RELEASE_NOTES.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64  # v3
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: ${{ env.TAG_NAME }}
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
