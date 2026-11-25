@@ -21,7 +21,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/SukramJ/go-modbus/protocol"
+	"sukramj.dev/go-modbus/protocol"
 )
 
 // Handler decides how the server replies to a single decoded request

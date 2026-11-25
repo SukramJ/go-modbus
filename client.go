@@ -25,7 +25,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/SukramJ/go-modbus/protocol"
+	"sukramj.dev/go-modbus/protocol"
 )
 
 // Default timeout used when [Config.Timeout] is zero.

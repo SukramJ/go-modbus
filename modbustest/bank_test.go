@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/SukramJ/go-modbus"
-	"github.com/SukramJ/go-modbus/modbustest"
-	"github.com/SukramJ/go-modbus/protocol"
+	"sukramj.dev/go-modbus"
+	"sukramj.dev/go-modbus/modbustest"
+	"sukramj.dev/go-modbus/protocol"
 )
 
 func dial(t *testing.T, srv *modbustest.Server) *modbus.Client {

@@ -7,7 +7,7 @@ import (
 	"encoding/binary"
 	"sync"
 
-	"github.com/SukramJ/go-modbus/protocol"
+	"sukramj.dev/go-modbus/protocol"
 )
 
 // Bank is a simulated holding-register file: FC03 reads are answered

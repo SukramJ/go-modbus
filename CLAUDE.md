@@ -15,7 +15,7 @@ as a regular `go.mod` dependency.
 ## Key Characteristics
 
 - **Language**: Go 1.27+ (see `go.mod`).
-- **Module path**: `github.com/SukramJ/go-modbus`.
+- **Module path**: `sukramj.dev/go-modbus`.
 - **License: MIT.** Every Go source file starts with:
   ```go
   // SPDX-License-Identifier: MIT
@@ -63,7 +63,7 @@ make vuln        # govulncheck
 
 ## Code Conventions
 
-- **Formatting**: `gofumpt` + `goimports -local github.com/SukramJ/go-modbus`.
+- **Formatting**: `gofumpt` + `goimports -local sukramj.dev/go-modbus`.
 - **Logging**: `log/slog` only; the client logs connect/disconnect at info.
 - **Errors**: sentinel errors are wrapped, never compared with `==`;
   device exceptions surface as `*protocol.ExceptionError` (`errors.AsType`).

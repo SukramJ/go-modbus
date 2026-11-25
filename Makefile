@@ -15,7 +15,7 @@ GOIMPORTS     ?= goimports
 GOLANGCI_LINT ?= golangci-lint
 GOVULNCHECK   ?= govulncheck
 
-MODULE := github.com/SukramJ/go-modbus
+MODULE := sukramj.dev/go-modbus
 
 .PHONY: help
 help: ## show this help
