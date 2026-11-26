@@ -1,3 +1,3 @@
-module github.com/SukramJ/go-modbus
+module sukramj.dev/go-modbus
 
 go 1.27.4

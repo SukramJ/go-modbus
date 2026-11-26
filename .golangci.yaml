@@ -101,7 +101,7 @@ formatters:
       extra-rules: true
     goimports:
       local-prefixes:
-        - github.com/SukramJ/go-modbus
+        - sukramj.dev/go-modbus
   exclusions:
     generated: lax
     paths:

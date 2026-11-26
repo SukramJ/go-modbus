@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/SukramJ/go-modbus/modbustest"
-	"github.com/SukramJ/go-modbus/protocol"
+	"sukramj.dev/go-modbus/modbustest"
+	"sukramj.dev/go-modbus/protocol"
 )
 
 const testUnitID byte = 0xF7 // 247, same as the M-TEC default

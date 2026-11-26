@@ -5,6 +5,12 @@ format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking:** the module path is now `sukramj.dev/go-modbus` (was
+  `github.com/SukramJ/go-modbus`). Update imports and `go.mod`; the
+  vanity path resolves to the same repository.
+
 ## [0.1.0] - 2026-10-25
 
 ### Added
